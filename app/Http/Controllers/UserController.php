@@ -17,9 +17,22 @@ class UserController extends Controller
         return view('temp_users.tambah');
     }
 
-    public function simpan() {
+    public function simpan(Request $request) {
+
+        // Validate data
+        $request->validate([
+            'name' => 'required|min:3',
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed']
+        ]);
+
+        // Dapatkan data dari borang
+        $data = $request->all();
+
+        return $data;
+
         // Simpan data ke dalam DB
-        return 'rekod telah berjaya di simpan';
+        // return 'rekod telah berjaya di simpan';
     }
 
     public function edit() {
