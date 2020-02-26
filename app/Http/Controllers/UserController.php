@@ -3,14 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 
 class UserController extends Controller
 {
     // protected
     // private
     // public
-    public function index() {
-        return view('temp_users.index');
+    public function index()
+    {
+        $senarai_users = DB::table('users')->get();
+
+        // dd($data) = Dump and die
+        // dd($senarai_users);
+
+        return view('temp_users.index', compact('senarai_users'));
     }
 
     public function create() {
