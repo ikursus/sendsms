@@ -39,7 +39,12 @@
                                 <td>{{ $person->role }}</td>
                                 <td>
                                     <a href="{{ route('users.edit', $person->id) }}" class="btn btn-info">EDIT</a>
-                                    <button type="button" class="btn btn-danger">DELETE</button>
+
+                                    <form method="POST" action="{{ route('users.destroy', $person->id) }}">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger">DELETE</button>
+                                    </form>
                                 </td>
                             </tr>
 

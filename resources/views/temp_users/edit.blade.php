@@ -11,6 +11,7 @@
                     <form method="POST" action="{{ route('users.update', $user->id) }}">
                         @csrf
                         @method('patch')
+                        <input type="hidden" name="_method" value="PATCH">
 
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>

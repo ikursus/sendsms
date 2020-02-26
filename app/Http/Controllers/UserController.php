@@ -110,9 +110,13 @@ class UserController extends Controller
         ->with('alert-mesej-sukses', 'Rekod telah berjaya dikemaskini!');
     }
 
-    public function destroy()
+    public function destroy($id)
     {
-        // Simpan data ke dalam DB
-        return 'rekod telah berjaya dihapuskan';
+        // Cari data yang ingin didelete berdasarkan ID user
+        DB::table('users')->where('id', $id)->delete();
+
+        // Redirect ke halaman senarai users selepas selesai simpan rekod
+        return redirect()->route('users.index')
+        ->with('alert-mesej-sukses', 'Rekod telah berjaya dihapuskan!');
     }
 }
