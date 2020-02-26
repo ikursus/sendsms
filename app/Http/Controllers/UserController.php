@@ -12,7 +12,15 @@ class UserController extends Controller
     // public
     public function index()
     {
-        $senarai_users = DB::table('users')->get();
+        // $senarai_users = DB::table('users')->get();
+        // $senarai_users = DB::table('users')->where('email', '=', 1)->get();
+        // $senarai_users = DB::table('users')
+        // ->where('id', '=', 1)
+        // ->orWhere('status', '!=', 'active')
+        // ->get();
+        $senarai_users = DB::table('users')
+        ->orderBy('id', 'desc')
+        ->paginate(1);
 
         // dd($data) = Dump and die
         // dd($senarai_users);
@@ -20,11 +28,13 @@ class UserController extends Controller
         return view('temp_users.index', compact('senarai_users'));
     }
 
-    public function create() {
+    public function create()
+    {
         return view('temp_users.tambah');
     }
 
-    public function simpan(Request $request) {
+    public function simpan(Request $request)
+    {
 
         // Validate data
         $request->validate([
@@ -42,12 +52,16 @@ class UserController extends Controller
         // return 'rekod telah berjaya di simpan';
     }
 
-    public function edit() {
-        // Simpan data ke dalam DB
-        return view('temp_users.edit');
+    public function edit($id)
+    {
+        // Query ke table user dan dapatkan rekod user yang nak di edit
+        $user = DB::table('users')->find($id);
+        // $user = DB::table('users')->where('id', '=', $id)->first();
+
+        return view('temp_users.edit', compact('user'));
     }
 
-    public function update() {
+    public function update($id) {
         // Simpan data ke dalam DB
         return 'rekod telah berjaya dikemaskini';
     }

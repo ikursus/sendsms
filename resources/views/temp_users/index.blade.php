@@ -21,7 +21,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($senarai_users as $person): ?>
+                            @foreach($senarai_users as $person)
 
                             <tr>
                                 <td scope="row">{{ $person->id }}</td>
@@ -35,11 +35,11 @@
                                 </td>
                             </tr>
 
-                            <?php endforeach; ?>
+                            @endforeach
                         </tbody>
                     </table>
 
-                    
+                    {{ $senarai_users->links() }}
                     
                 </div>
             </div>
