@@ -39,17 +39,29 @@ class UserController extends Controller
         // Validate data
         $request->validate([
             'name' => 'required|min:3',
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'confirmed']
         ]);
 
         // Dapatkan data dari borang
-        $data = $request->all();
+        $data = $request->only([
+            'name',
+            'email',
+            'phone',
+            'status',
+            'role',
+            'jantina'
+        ]);
 
-        return $data;
+        // encrypt data password
+        $data['password'] = bcrypt($request->input('password'));
 
         // Simpan data ke dalam DB
-        // return 'rekod telah berjaya di simpan';
+        DB::table('users')->insert($data);
+
+        // Redirect ke halaman senarai users selepas selesai simpan rekod
+        return redirect()->route('users.index')
+        ->with('alert-mesej-sukses', 'Rekod telah berjaya ditambah!');
     }
 
     public function edit($id)

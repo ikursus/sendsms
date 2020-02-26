@@ -8,6 +8,14 @@
                 <div class="card-header">Senarai Users</div>
 
                 <div class="card-body">
+
+                    @if (session('alert-mesej-sukses'))
+                    <div class="alert alert-success">
+                        {{ session('alert-mesej-sukses') }}
+                    </div>
+                    @endif
+
+                    <a href="{{ route('users.create') }}" class="btn btn-primary">Tambah User</a>
                     
                     <table class="table">
                         <thead>
