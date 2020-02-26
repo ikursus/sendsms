@@ -73,12 +73,45 @@ class UserController extends Controller
         return view('temp_users.edit', compact('user'));
     }
 
-    public function update($id) {
+    public function update(Request $request, $id)
+    {
+        // Validate data
+        $request->validate([
+            'name' => 'required|min:3',
+            'email' => ['required', 'email', 'unique:users,email,' . $id]
+        ]);
+
+        // Dapatkan data dari borang
+        $data = $request->only([
+            'name',
+            'email',
+            'phone',
+            'status',
+            'role',
+            'jantina'
+        ]);
+
+        // $variable = array('1' => 1, '2' => 2);
+        // $variable = ['1' => 1, '2' => 2];
+        // $variable['1'] = 1;
+        // $variable['2'] = 2;
+        // Update password baru sekiranya ruangan password TIDAK kosong
+        // encrypt password dan attach kepada array $data
+        if ( !empty($request->input('password')) )
+        {
+            $data['password'] = bcrypt($request->input('password'));
+        }
+        
         // Simpan data ke dalam DB
-        return 'rekod telah berjaya dikemaskini';
+        DB::table('users')->where('id', $id)->update($data);
+
+        // Redirect ke halaman senarai users selepas selesai simpan rekod
+        return redirect()->route('users.index')
+        ->with('alert-mesej-sukses', 'Rekod telah berjaya dikemaskini!');
     }
 
-    public function destroy() {
+    public function destroy()
+    {
         // Simpan data ke dalam DB
         return 'rekod telah berjaya dihapuskan';
     }
