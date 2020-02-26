@@ -20,7 +20,7 @@ class UserController extends Controller
         // ->get();
         $senarai_users = DB::table('users')
         ->orderBy('id', 'desc')
-        ->paginate(1);
+        ->paginate(5);
 
         // dd($data) = Dump and die
         // dd($senarai_users);
