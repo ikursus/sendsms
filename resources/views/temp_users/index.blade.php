@@ -15,7 +15,9 @@
                     </div>
                     @endif
 
+                    <p>
                     <a href="{{ route('users.create') }}" class="btn btn-primary">Tambah User</a>
+                    </p>
                     
                     <table class="table">
                         <thead>
