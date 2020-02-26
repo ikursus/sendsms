@@ -40,11 +40,45 @@
                                 <td>
                                     <a href="{{ route('users.edit', $person->id) }}" class="btn btn-info">EDIT</a>
 
-                                    <form method="POST" action="{{ route('users.destroy', $person->id) }}">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-danger">DELETE</button>
-                                    </form>
+
+                                    <!-- Button trigger modal -->
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{ $person->id }}">
+    DELETE
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="modal-delete-{{ $person->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+
+        <form method="POST" action="{{ route('users.destroy', $person->id) }}">
+            @csrf
+            @method('delete')
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Adakah anda bersetuju untuk delete rekod {{  $person->name }} ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+
+        </form>
+
+
+    </div>
+  </div>
+
+                                    
+                                        
+                                    
                                 </td>
                             </tr>
 
