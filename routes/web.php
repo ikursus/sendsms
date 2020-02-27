@@ -35,9 +35,13 @@ Route::group(['prefix' => 'users', 'middleware' => 'auth'], function () {
 });
 
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'checkadmin']], function () {
 
     Route::resource('sms', 'SmsController');
+
+    Route::post('import/sms', 'SmsExcelController@import')->name('sms.import');
+    Route::get('export/sms', 'SmsExcelController@export')->name('sms.export');
+    Route::get('cetak/sms', 'SmsCetakController@print')->name('sms.cetak');
 
 });
 

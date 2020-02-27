@@ -46,23 +46,43 @@ class SmsController extends Controller
         // Hantar SMS
         $some_data = array(
             'phone'=> $request->input('penerima'),
-            'access_key'=>'65f033048fee4bdf902046815a2e0fc1',
-            'secret_key'=>'asyioffgvai19ojdhu2tasqc1x93614gdcrz7h8frh6m8qo5k57qief5k2wdqy2wfdgw94c2lqpi1ikfyxfrzvrpz780rtg6zl11',
+            'access_key'=>'XXXXXX',
+            'secret_key'=>'XXXXXX',
             'message'=> $request->input('message')
-          );  
-        
-          $curl = curl_init();
-          curl_setopt($curl, CURLOPT_POST, 1);
-          curl_setopt($curl, CURLOPT_URL, 'https://app.smshandy.com/api/sms/send');  
-          curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-          curl_setopt($curl, CURLOPT_POSTFIELDS, $some_data);
-        
-          $result = curl_exec($curl);
-          $info = curl_getinfo($curl);  
-          curl_close($curl);
-          $obj = json_decode($result);
-          
-          return $result;
+        );  
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_URL, 'https://app.smshandy.com/api/sms/send');  
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $some_data);
+
+        $result = curl_exec($curl);
+        $info = curl_getinfo($curl);  
+        curl_close($curl);
+        $obj = json_decode($result);
+
+        // return $result;
+        // Simpan rekod ke dalam database
+
+        // Cara 1 simpan data
+        // $sms = new Sms;
+        // $sms->penerima = $request->input('penerima');
+        // $sms->message = $request->input('message');
+        // $sms->status = $obj->status;
+        // $sms->user_id = auth()->user()->id;
+        // $sms->save();
+
+        // Cara 2 simpan data
+        $data = $request->all();
+        $data['user_id'] = auth()->user()->id;
+        $data['status'] = $obj->status;
+
+        Sms::create($data);
+
+        // Response redirect ke senarai sms
+        return redirect()->route('sms.index')
+        ->with('alert-mesej-sukses', 'SMS telah berjaya dikirimkan!');
     }
 
     /**

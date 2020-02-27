@@ -38,4 +38,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Relation dari table users kepada table sms
+    public function sms()
+    {
+        return $this->hasMany(Sms::class);
+    }
+
+    // Semak role pengguna adakah admin?
+    public function isAdmin()
+    {
+        if (auth()->user()->role == 'admin')
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -9,6 +9,16 @@
 
                 <div class="card-body">
 
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     @if (session('alert-mesej-sukses'))
                     <div class="alert alert-success">
                         {{ session('alert-mesej-sukses') }}
@@ -16,13 +26,26 @@
                     @endif
 
                     <p>
-                    <a href="{{ route('sms.create') }}" class="btn btn-primary">Hantar SMS</a>
+                        <a href="{{ route('sms.create') }}" class="btn btn-primary">Hantar SMS</a>
+                        <a href="{{ route('sms.export') }}" class="btn btn-success">Export SMS</a>
+                        <a href="{{ route('sms.cetak') }}" class="btn btn-warning">Download PDF</a>
                     </p>
+
+                    <form method="POST" action="{{ route('sms.import') }}" enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="fail_import">
+                        <span>Pilih fail format .xls atau .xlsx sahaja</span>
+
+                        <button type="submit" class="btn btn-danger">Import</button>
+                    </form>
+
+                    <hr>
                     
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>PENGIRIM</th>
                                 <th>PENERIMA</th>
                                 <th>MESSAGE</th>
                                 <th>STATUS</th>
@@ -34,6 +57,7 @@
 
                             <tr>
                                 <td scope="row">{{ $sms->id }}</td>
+                                <td>{{ $sms->user->name }}</td>
                                 <td>{{ $sms->penerima }}</td>
                                 <td>{{ $sms->message }}</td>
                                 <td>{{ $sms->status }}</td>

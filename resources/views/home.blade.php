@@ -13,6 +13,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    @if (session('alert-mesej-gagal'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('alert-mesej-gagal') }}
+                        </div>
+                    @endif
 
                     You are logged in!
                 </div>
