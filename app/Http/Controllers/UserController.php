@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\User;
 
 class UserController extends Controller
 {
@@ -18,8 +19,11 @@ class UserController extends Controller
         // ->where('id', '=', 1)
         // ->orWhere('status', '!=', 'active')
         // ->get();
-        $senarai_users = DB::table('users')
-        ->orderBy('id', 'desc')
+        // $senarai_users = DB::table('users')
+        // ->orderBy('id', 'desc')
+        // ->paginate(5);
+
+        $senarai_users = User::orderBy('id', 'desc')
         ->paginate(5);
 
         // dd($data) = Dump and die
@@ -35,7 +39,6 @@ class UserController extends Controller
 
     public function simpan(Request $request)
     {
-
         // Validate data
         $request->validate([
             'name' => 'required|min:3',
